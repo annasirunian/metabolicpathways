@@ -55,15 +55,28 @@ tr:hover {
   height: 80%;
 }
 
-button {
+#load_file input[type="file"] {
+  display: none;
+}
+
+button,
+.button {
   padding: 10px 15px;
   text-align: center;
   font-size: 15px;
   cursor: pointer;
   border-radius: 7px;
+  background: gray;
 }
 
-button:hover {
+button:hover,
+.button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.green_theme button:hover,
+.green_theme .button:hover {
   background-color: #4caf50;
   color: white;
 }

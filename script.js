@@ -112,7 +112,9 @@ function main() {
   document
     .getElementById("theme_selector")
     .addEventListener("change", handleThemeChange);
-  document.getElementById("file").addEventListener("change", handleFileSelect);
+  document
+    .getElementById("file_selector")
+    .addEventListener("change", handleFileSelect);
 }
 
 main();
