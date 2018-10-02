@@ -13,6 +13,7 @@ function onShowDemo() {
   d3.json("demo.json", function(error, data) {
     if (error) console.warn(error);
     embedPathwayMap(data);
+    getStatistics(data);
   });
 }
 
