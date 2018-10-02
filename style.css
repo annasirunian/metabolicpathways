@@ -42,6 +42,14 @@ tr:hover {
   background-color: #f5f5f5;
 }
 
+.green_theme svg.escher-svg .arrowhead {
+  fill: green !important;
+}
+
+.green_theme svg.escher-svg .segment {
+  stroke: green !important;
+}
+
 #statistics {
   overflow-x: hidden;
   height: 80%;

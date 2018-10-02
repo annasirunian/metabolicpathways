@@ -102,9 +102,16 @@ function handleFileSelect(evt) {
   reader.readAsText(file);
 }
 
+function handleThemeChange(evt) {
+  document.body.className = evt.target.value;
+}
+
 function main() {
   embedPathwayMap(null);
   document.getElementById("show_demo").onclick = onShowDemo;
+  document
+    .getElementById("theme_selector")
+    .addEventListener("change", handleThemeChange);
   document.getElementById("file").addEventListener("change", handleFileSelect);
 }
 
