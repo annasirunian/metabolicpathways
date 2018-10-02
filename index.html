@@ -12,15 +12,20 @@
     <div id="parent_container">
         <div id="map_container"></div>
         <div id="sidebar_container">
+            <label>Select color theme:
+                <select id="theme_selector">
+                    <option value="default_theme">Default</option>
+                    <option value="green_theme">Green</option>
+                </select>
+            </label>
             <button id="show_demo">Show demo map</button>
-            <select id="theme_selector">
-                <option value="default_theme">Default</option>
-                <option value="green_theme">Green</option>
-            </select>
             <label id="load_file" class="button"> Load map from file
                 <input type="file" id="file_selector" />
             </label>
-            <div id="statistics"></div>
+            <h3>Statistics</h3>
+            <div id="statistics_container">
+                <span>Please load a file first to see its statistics.</span>
+            </div>
         </div>
     </div>
     <script src="https://unpkg.com/escher-vis/js/dist/escher.min.js"></script>

@@ -25,6 +25,12 @@ body {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  align-items: flex-start;
+}
+
+#sidebar_container > *,
+#statistics_container > * {
+  margin-bottom: 10px;
 }
 
 table {
@@ -50,9 +56,9 @@ tr:hover {
   stroke: green !important;
 }
 
-#statistics {
+#statistics_container {
   overflow-x: hidden;
-  height: 80%;
+  height: 70%;
 }
 
 #load_file input[type="file"] {

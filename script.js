@@ -18,10 +18,9 @@ function onShowDemo() {
 }
 
 function clearStatistics() {
-  let div = document.getElementById("statistics");
-  let tables = div.querySelectorAll("table");
-  for (let table of tables) {
-    div.removeChild(table);
+  let div = document.getElementById("statistics_container");
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
   }
 }
 
@@ -50,7 +49,7 @@ function displayStatistics(data, th1Text, th2Text) {
     tr.appendChild(td2);
     table.appendChild(tr);
   }
-  document.getElementById("statistics").appendChild(table);
+  document.getElementById("statistics_container").appendChild(table);
 }
 
 function getStatistics(data) {
