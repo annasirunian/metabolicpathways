@@ -16,9 +16,22 @@ function onShowDemo() {
   });
 }
 
+function handleFileSelect(evt) {
+  let file = evt.target.files[0];
+  let reader = new FileReader();
+
+  reader.onload = function(e) {
+    let data = JSON.parse(e.target.result);
+    embedPathwayMap(data);
+  };
+
+  reader.readAsText(file);
+}
+
 function main() {
   embedPathwayMap(null);
   document.getElementById("show_demo").onclick = onShowDemo;
+  document.getElementById("file").addEventListener("change", handleFileSelect);
 }
 
 main();
