@@ -3,17 +3,53 @@
 function embedPathwayMap(data) {
   let options = {
     menu: "zoom",
-    //fill_screen: true,
     enable_editing: false
   };
   escher.Builder(data, null, null, d3.select("#map_container"), options);
 }
 
 function onShowDemo() {
+  clearStatistics();
   d3.json("demo.json", function(error, data) {
     if (error) console.warn(error);
     embedPathwayMap(data);
   });
+}
+
+function clearStatistics() {
+  let div = document.getElementById("statistics");
+  let tables = div.querySelectorAll("table");
+  for (let table of tables) {
+    div.removeChild(table);
+  }
+}
+
+function displayStatistics(data, th1Text, th2Text) {
+  let table = document.createElement("table");
+  let types = Object.keys(data);
+  let tr = document.createElement("tr");
+  let th1 = document.createElement("th");
+  let th2 = document.createElement("th");
+  let text1 = document.createTextNode(th1Text);
+  let text2 = document.createTextNode(th2Text);
+  th1.appendChild(text1);
+  th2.appendChild(text2);
+  tr.appendChild(th1);
+  tr.appendChild(th2);
+  table.appendChild(tr);
+  for (let type of types) {
+    let tr = document.createElement("tr");
+    let td1 = document.createElement("td");
+    let td2 = document.createElement("td");
+    let text1 = document.createTextNode(type);
+    let text2 = document.createTextNode(data[type]);
+    td1.appendChild(text1);
+    td2.appendChild(text2);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    table.appendChild(tr);
+  }
+  document.getElementById("statistics").appendChild(table);
 }
 
 function getStatistics(data) {
@@ -27,6 +63,7 @@ function getStatistics(data) {
     }
     nodeTypes[nodeType]++;
   }
+  displayStatistics(nodeTypes, "Node type", "Number of nodes");
 
   // Genes statistics
   let genes = {};
@@ -48,9 +85,11 @@ function getStatistics(data) {
       delete genes[name];
     }
   }
+  displayStatistics(genes, "Gene name", "Number of reactions");
 }
 
 function handleFileSelect(evt) {
+  clearStatistics();
   let file = evt.target.files[0];
   let reader = new FileReader();
 
