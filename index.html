@@ -9,8 +9,14 @@
 </head>
 
 <body>
-    <div id="map_container"></div>
-    <button class="button">Load pathway map</button>
+    <div id="parent_container">
+        <div id="map_container"></div>
+        <div id="sidebar_container">
+            <button id="show_demo">Show demo map</button>
+            <select></select>
+            <button id="load_file">Load map from file</button>
+        </div>
+    </div>
     <script src="https://unpkg.com/escher-vis/js/dist/escher.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <script src="script.js"></script>
