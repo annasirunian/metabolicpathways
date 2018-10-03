@@ -9,11 +9,15 @@ function embedPathwayMap(data) {
 }
 
 function onShowDemo() {
-  clearStatistics();
-  d3.json("demo.json", function(error, data) {
-    if (error) console.warn(error);
-    embedPathwayMap(data);
-    getStatistics(data);
+  d3.json("demo.json", function(err, data) {
+    if (err) {
+      console.error("Unable to load a demo file: ", err);
+      document.getElementById("load_error").className = "visible";
+    } else {
+      document.getElementById("load_error").className = "";
+      embedPathwayMap(data);
+      getStatistics(data);
+    }
   });
 }
 
@@ -53,6 +57,7 @@ function displayStatistics(data, th1Text, th2Text) {
 }
 
 function getStatistics(data) {
+  clearStatistics();
   // Nodes statistics
   let nodeTypes = {};
   let nodes = Object.values(data[1].nodes);
@@ -89,14 +94,19 @@ function getStatistics(data) {
 }
 
 function handleFileSelect(evt) {
-  clearStatistics();
   let file = evt.target.files[0];
   let reader = new FileReader();
 
   reader.onload = function(e) {
-    let data = JSON.parse(e.target.result);
-    embedPathwayMap(data);
-    getStatistics(data);
+    try {
+      let data = JSON.parse(e.target.result);
+      embedPathwayMap(data);
+      getStatistics(data);
+      document.getElementById("load_error").className = "";
+    } catch (err) {
+      console.error("Unable to load a local file: ", err);
+      document.getElementById("load_error").className = "visible";
+    }
   };
 
   reader.readAsText(file);
