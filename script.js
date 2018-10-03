@@ -2,7 +2,8 @@
 
 function embedPathwayMap(data) {
   escher.Builder(data, null, null, document.getElementById("map_container"), {
-    menu: "zoom"
+    menu: "zoom",
+    enable_editing: false
   });
 }
 
