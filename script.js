@@ -1,30 +1,51 @@
 "use strict";
 
 function embedPathwayMap(data) {
-  let options = {
-    menu: "zoom",
-    enable_editing: false
-  };
-  escher.Builder(data, null, null, d3.select("#map_container"), options);
-}
-
-function onShowDemo() {
-  d3.json("demo.json", function(err, data) {
-    if (err) {
-      console.error("Unable to load a demo file: ", err);
-      document.getElementById("load_error").className = "visible";
-    } else {
-      document.getElementById("load_error").className = "";
-      embedPathwayMap(data);
-      getStatistics(data);
-    }
+  escher.Builder(data, null, null, document.getElementById("map_container"), {
+    menu: "zoom"
   });
 }
 
+function loadFile(text) {
+  try {
+    let data = JSON.parse(text);
+    embedPathwayMap(data);
+    getStatistics(data);
+    document.getElementById("load_error").className = "";
+  } catch (err) {
+    console.error("Unable to load file: ", err);
+    document.getElementById("load_error").className = "visible";
+  }
+}
+
+function handleShowDemo() {
+  let client = new XMLHttpRequest();
+  client.open("GET", "demo.json");
+  client.onload = function() {
+    loadFile(client.responseText);
+  };
+  client.send();
+}
+
+function handleFileSelect(evt) {
+  let file = evt.target.files[0];
+  let reader = new FileReader();
+
+  reader.onload = function(e) {
+    loadFile(e.target.result);
+  };
+
+  reader.readAsText(file);
+}
+
+function handleThemeChange(evt) {
+  document.body.className = evt.target.value;
+}
+
 function clearStatistics() {
-  let div = document.getElementById("statistics_container");
-  while (div.firstChild) {
-    div.removeChild(div.firstChild);
+  let container = document.getElementById("statistics_container");
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
   }
 }
 
@@ -58,6 +79,7 @@ function displayStatistics(data, th1Text, th2Text) {
 
 function getStatistics(data) {
   clearStatistics();
+
   // Nodes statistics
   let nodeTypes = {};
   let nodes = Object.values(data[1].nodes);
@@ -74,8 +96,7 @@ function getStatistics(data) {
   let genes = {};
   let reactions = Object.values(data[1].reactions);
   for (let reaction of reactions) {
-    let genesInReaction = reaction.genes;
-    for (let geneInReaction of genesInReaction) {
+    for (let geneInReaction of reaction.genes) {
       let gene = geneInReaction.name;
       if (!(gene in genes)) {
         genes[gene] = 0;
@@ -93,32 +114,11 @@ function getStatistics(data) {
   displayStatistics(genes, "Gene name", "Number of reactions");
 }
 
-function handleFileSelect(evt) {
-  let file = evt.target.files[0];
-  let reader = new FileReader();
-
-  reader.onload = function(e) {
-    try {
-      let data = JSON.parse(e.target.result);
-      embedPathwayMap(data);
-      getStatistics(data);
-      document.getElementById("load_error").className = "";
-    } catch (err) {
-      console.error("Unable to load a local file: ", err);
-      document.getElementById("load_error").className = "visible";
-    }
-  };
-
-  reader.readAsText(file);
-}
-
-function handleThemeChange(evt) {
-  document.body.className = evt.target.value;
-}
-
 function main() {
   embedPathwayMap(null);
-  document.getElementById("show_demo").onclick = onShowDemo;
+  document
+    .getElementById("show_demo")
+    .addEventListener("click", handleShowDemo);
   document
     .getElementById("theme_selector")
     .addEventListener("change", handleThemeChange);
